@@ -6,10 +6,11 @@ namespace CSharpTDD
 {
     public class Fibonacci
     {
-        public int GetFibonacci(int num)
+        public static int GetFibonacci(int num)
         {
             if (num == 0) return 0;
-            return 1;
+            if (num == 1) return 1;
+            return GetFibonacci(num - 1) + GetFibonacci(num - 2);
         }
     }
 }
