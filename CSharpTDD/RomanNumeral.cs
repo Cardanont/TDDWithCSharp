@@ -20,7 +20,22 @@ namespace CSharpTDD
 
         public static int Parse(string roman)
         {
-            return map[roman[0]];
+            int result = 0;
+            for (int i = 0; i < roman.Length; i++)
+            {
+
+                if (i + 1 < roman.Length && map[roman[i]] < map[roman[i + 1]])
+                {
+                    result -= map[roman[i]];
+                }
+                else
+                {
+                    result += map[roman[i]];
+                }
+            }
+            
+            Console.WriteLine(result);
+            return result;
         }
     }
 }
