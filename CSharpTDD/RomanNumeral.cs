@@ -24,7 +24,7 @@ namespace CSharpTDD
             for (int i = 0; i < roman.Length; i++)
             {
 
-                if (i + 1 < roman.Length && map[roman[i]] < map[roman[i + 1]])
+                if (i + 1 < roman.Length && IsSubstractive(roman[i], roman[i+1]))
                 {
                     result -= map[roman[i]];
                 }
@@ -36,6 +36,11 @@ namespace CSharpTDD
             
             Console.WriteLine(result);
             return result;
+        }
+
+        private static bool IsSubstractive(char c1, char c2)
+        {
+            return map[c1] < map[c2];
         }
     }
 }
