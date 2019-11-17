@@ -7,7 +7,7 @@ namespace CSharpTDD
 {
     public class Client
     {
-        private readonly UpdateableSpin spin;
+        //private readonly UpdateableSpin spin;
         //private readonly Processor processor;
 
         public Client()
