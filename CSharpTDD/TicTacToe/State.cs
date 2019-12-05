@@ -10,4 +10,12 @@ namespace CSharpTDD.TicTacToe
         Zero,
         Unset
     }
+
+    public enum Winner
+    {
+        Zeroes,
+        Crosses,
+        Draw,
+        GameIsUnfinished
+    }
 }
