@@ -7,7 +7,8 @@ namespace CSharpTDD.Sticks
 
     public enum Player
     {
-        Machine
+        Machine,
+        Human
     }
 
     public class SticksGame
@@ -26,5 +27,16 @@ namespace CSharpTDD.Sticks
                 throw new ArgumentException($"Number of sticks has to be >= 10. You passed:{numberOfSticks}");
             }
         }
+
+        public void HumaMakesMove(int sticksTaken)
+        {
+            if(sticksTaken < MinToTake || sticksTaken > MaxToTake)
+            {
+                throw new ArgumentException($"You should take from one to three sticks. you took: {sticksTaken}");
+            }
+        }
+
+        public const int MaxToTake = 3;
+        public const int MinToTake = 1;
     }
 }

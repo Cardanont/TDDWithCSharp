@@ -28,5 +28,15 @@ namespace TDD_CSharp_Lib.Test
             Assert.That(sut.Turn, Is.EqualTo(player));
         }
 
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(4)]
+        public void HumanMakesMove_InvalidNumbersOfSticks_Throws(int take)
+        {
+            var sut = new SticksGame(10, Player.Human);
+            Assert.Throws<ArgumentException>(() => sut.HumaMakesMove(take));
+        }
+
     }
 }
