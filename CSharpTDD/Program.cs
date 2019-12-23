@@ -6,9 +6,7 @@ namespace CSharpTDD
     {
         static void Main(string[] args)
         {
-            RomanNumeral romans = new RomanNumeral();
 
-            //romans.Parse("CC");
         }
     }
 }
