@@ -38,6 +38,13 @@ namespace TDD_CSharp_Lib.Test
             Assert.Throws<ArgumentException>(() => sut.HumaMakesMove(take));
         }
 
+        [Test]
+        public void HumanMakesMove_TurnOfMachine_Throws()
+        {
+            var sut = new SticksGame(10, Player.Machine);
+            Assert.Throws<InvalidOperationException>(() => sut.HumaMakesMove(1));
+        }
+
 
         [Test]
         [TestCase(1, 9)]
@@ -46,8 +53,8 @@ namespace TDD_CSharp_Lib.Test
 
         public void HumanMakesMove_CorrectGameState(int takes, int remains)
         {
-            var sut = new Game(10, Player.Human);
-            sut = sut.HumanMakesMove(takes);
+            var sut = new SticksGame(10, Player.Human);
+            sut = sut.HumaMakesMove(takes);
 
             Assert.That(sut.NumberOfSticks, Is.EqualTo(remains));
             Assert.That(sut.Turn, Is.EqualTo(Player.Machine));
