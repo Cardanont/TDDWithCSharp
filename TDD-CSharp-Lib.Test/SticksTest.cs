@@ -38,5 +38,20 @@ namespace TDD_CSharp_Lib.Test
             Assert.Throws<ArgumentException>(() => sut.HumaMakesMove(take));
         }
 
+
+        [Test]
+        [TestCase(1, 9)]
+        [TestCase(2, 8)]
+        [TestCase(3, 7)]
+
+        public void HumanMakesMove_CorrectGameState(int takes, int remains)
+        {
+            var sut = new Game(10, Player.Human);
+            sut = sut.HumanMakesMove(takes);
+
+            Assert.That(sut.NumberOfSticks, Is.EqualTo(remains));
+            Assert.That(sut.Turn, Is.EqualTo(Player.Machine));
+        }
+
     }
 }
