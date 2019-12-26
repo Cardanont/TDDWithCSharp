@@ -60,5 +60,27 @@ namespace TDD_CSharp_Lib.Test
             Assert.That(sut.Turn, Is.EqualTo(Player.Machine));
         }
 
+
+        [Test]
+        [TestCase(1, 9)]
+        [TestCase(2, 8)]
+        [TestCase(3, 7)]
+
+        public void MachineMakesMove_CorrectGameState(int takes, int remains)
+        {
+            var gen = new PredictableGenerator();
+            gen.SetNumber(takes);
+
+            int taken = 0;
+            var sut = new SticksGame(10, Player.Machine, gen);
+            sut.MachineMoved += (s, args) => taken = args.Taken;
+
+            sut = sut.MachineMakesMove();
+
+            Assert.That(sut.NumberOfSticks, Is.EqualTo(remains));
+            Assert.That(takes, Is.EqualTo(taken));
+            Assert.That(sut.Turn, Is.EqualTo(Player.Human));
+        }
+
     }
 }

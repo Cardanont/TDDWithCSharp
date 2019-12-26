@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CSharpTDD.Sticks
 {
@@ -11,18 +9,38 @@ namespace CSharpTDD.Sticks
         Human
     }
 
+    public interface ICanGenerateNumbers
+    {
+        int Next(int min, int max);
+    }
+    public class NumbersGenerator : ICanGenerateNumbers
+    {
+        private readonly Random _generator = new Random();
+        public int Next(int min, int max)
+        {
+            return _generator.Next(min, max);
+        }
+    }
+
     public class SticksGame
     {
+        private readonly ICanGenerateNumbers _generator;
         public int NumberOfSticks { get; }
         public Player Turn { get; }
 
-        public SticksGame(int numberOfSticks, Player turn)
+        public SticksGame(int numberOfSticks, Player turn):this(numberOfSticks, turn, new NumbersGenerator())
+        {
+
+        }
+
+        public SticksGame(int numberOfSticks, Player turn, ICanGenerateNumbers generator)
         {
             if (numberOfSticks < 10)
             {
                 throw new ArgumentException($"Number of sticks has to be >= 10. You passed:{numberOfSticks}");
             }
 
+            _generator = generator;
             NumberOfSticks = numberOfSticks;
             Turn = turn;
         }
@@ -30,10 +48,12 @@ namespace CSharpTDD.Sticks
         /// <summary>
         /// copy of ctor
         /// </summary>
-        private SticksGame(Player turn, int numberOfSticks)
+        private SticksGame(Player turn, int numberOfSticks, ICanGenerateNumbers generator, EventHandler<Move> onMachineMoved)
         {
             NumberOfSticks = numberOfSticks;
             Turn = turn;
+            _generator = generator;
+            MachineMoved = onMachineMoved;
 
         }
 
@@ -49,7 +69,7 @@ namespace CSharpTDD.Sticks
                 throw new ArgumentException($"You should take from one to three sticks. you took: {sticksTaken}");
             }
 
-            return new SticksGame(Revert(Turn), NumberOfSticks-sticksTaken);
+            return new SticksGame(Revert(Turn), NumberOfSticks-sticksTaken, _generator, MachineMoved);
         }
 
         private Player Revert(Player p)
@@ -59,5 +79,41 @@ namespace CSharpTDD.Sticks
 
         public const int MaxToTake = 3;
         public const int MinToTake = 1;
+        public event EventHandler<Move> MachineMoved;
+
+        public SticksGame MachineMakesMove()
+        {
+            int sticksTaken = _generator.Next(MinToTake, MaxToTake);
+            int remains = NumberOfSticks - sticksTaken;
+            MachineMoved?.Invoke(this, new Move(sticksTaken, remains));
+
+            return new SticksGame(Revert(Turn), remains, _generator, MachineMoved);
+        }
+    }
+
+    public class PredictableGenerator : ICanGenerateNumbers
+    {
+        private int _number;
+        public int Next(int min, int max)
+        {
+            return _number;
+        }
+
+        public void SetNumber(int number)
+        {
+            _number = number;
+        }
+    }
+
+    public struct Move
+    {
+        public int Taken { get; }
+        public int Remains { get; }
+
+        public Move(int taken, int remains)
+        {
+            Taken = taken;
+            Remains = remains;
+        }
     }
 }
