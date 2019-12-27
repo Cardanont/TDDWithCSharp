@@ -1,5 +1,6 @@
 ﻿using System;
 
+// Need to finish this tests and methods
 namespace CSharpTDD.Sticks
 {
 
@@ -21,7 +22,6 @@ namespace CSharpTDD.Sticks
             return _generator.Next(min, max);
         }
     }
-
     public class SticksGame
     {
         private readonly ICanGenerateNumbers _generator;
